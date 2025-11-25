@@ -21,7 +21,7 @@ jobs:
 
       - name: Publish to Packagist
         run: |-
-          curl --fail-with-body --json '{"repository":"https://github.com/ms-jpq/test-php-publishing"}' "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_SAFE_KEY}"
+          curl --fail-with-body -X POST -H 'Content-Type: application/json' "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_SAFE_KEY}" -d '{"repository":"https://github.com/ms-jpq/test-php-publishing"}'
         env:
           PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
           PACKAGIST_SAFE_KEY: ${{ secrets.PACKAGIST_SAFE_KEY }}
