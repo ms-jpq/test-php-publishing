@@ -11,9 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: "0.44.0"
+          RYE_INSTALL_OPTION: "--yes"
+
       - name: Publish to Packagist
         run: |-
-          curl --fail-with-body --json '{"repository":"https://github.com/ms-jpq/test-php-publishing"}' -- "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_SAFE_KEY}"
+          curl --fail-with-body --json '{"repository":"https://github.com/ms-jpq/test-php-publishing"}' "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_SAFE_KEY}"
         env:
           PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
           PACKAGIST_SAFE_KEY: ${{ secrets.PACKAGIST_SAFE_KEY }}
